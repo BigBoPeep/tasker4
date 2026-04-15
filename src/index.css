@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-page: var(--color-olive-200);
+  --color-btn: var(--color-neutral-600);
+
+  --ease-bounce: cubic-bezier(0.34, 1.26, 0.64, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  @theme inline {
+    --color-page: var(--color-olive-800);
+    --color-btn: var(--color-neutral-400);
+  }
+}
+
+[data-theme="ozark"] {
+  --color-page: var(--color-olive-200);
+
+  @media (prefers-color-scheme: dark) {
+    --color-page: var(--color-stone-800);
+  }
+}
