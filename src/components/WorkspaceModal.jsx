@@ -3,13 +3,17 @@ import { useSignal } from "@preact/signals-react";
 import { addWorkspace, updateWorkspace, closeModal } from "../modules/store";
 import { SquareCheckBig, OctagonX } from "lucide-react";
 import Tooltip from "./Tooltip";
+import { addToast } from "../modules/store";
 
 export default function WorkspaceModal({ data }) {
   useSignals();
   const title = useSignal(data?.title ?? "");
 
   function handleSubmit() {
-    if (!title.value.trim()) return;
+    if (title.value.trim().length < 3) {
+      addToast("Workspace name must be at least three characters", "warning");
+      return;
+    }
     data ? updateWorkspace(data.id, title.value) : addWorkspace(title.value);
     closeModal();
   }
@@ -22,7 +26,7 @@ export default function WorkspaceModal({ data }) {
           className="w-full"
           value={title.value}
           onChange={(e) => (title.value = e.target.value)}
-          placeholder="Workspace Title"
+          placeholder="Workspace Name"
         />
         <div className="flex justify-evenly">
           <Tooltip content={"Cancel"}>

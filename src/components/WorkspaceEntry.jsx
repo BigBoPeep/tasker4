@@ -5,25 +5,28 @@ import {
   deleteWorkspace,
   openModal,
   activeProjectID,
+  sidebarOpen,
 } from "../modules/store";
 import ProjectEntry from "./ProjectEntry";
-import { Trash2, ChevronRight } from "lucide-react";
+import { Trash2, ChevronRight, DiamondPlus } from "lucide-react";
 
 export default function WorkspaceEntry({ workspace }) {
   useSignals();
 
   return (
-    <details className="w-full flex flex-col items-center relative group/ws">
+    <details
+      className="w-full flex flex-col items-center relative group/ws bg-(--color-overlay-1) 
+        rounded-md"
+    >
       <summary
         className="flex justify-center items-center w-full overflow-hidden
-        hover:bg-(--color-overlay-2) cursor-pointer rounded-md"
+        hover:bg-(--color-overlay-2) cursor-pointer rounded-md px-1"
       >
-        <ChevronRight className="group-open/ws:rotate-45 transition-transform duration-400" />
         <p className="p-2 px-2 mx-auto">{workspace.title}</p>
         <ChevronRight className="rotate-180 group-open/ws:rotate-135 transition-transform duration-400" />
         <div
-          className="absolute flex items-center inset-0 my-auto ml-auto mr-2
-            h-full w-fit scale-x-0 group-hover/ws:scale-x-100 origin-right 
+          className="absolute flex inset-0 ml-auto mr-2 mt-2
+            h-fit w-fit scale-x-0 group-hover/ws:scale-x-100 origin-right 
             transition-transform duration-300"
         >
           <button
@@ -39,10 +42,26 @@ export default function WorkspaceEntry({ workspace }) {
           </button>
         </div>
       </summary>
-      <div>
-        {Object.values(projectsByWorkspace.value[workspace.id]).map((proj) => {
-          return <ProjectEntry project={proj} />;
-        })}
+      <div className="p-1 pb-2">
+        <div>
+          {Object.values(projectsByWorkspace.value[workspace.id]).map(
+            (proj) => {
+              return (
+                <ProjectEntry
+                  project={proj}
+                  selected={activeProjectID.value === proj.id}
+                  onClick={() => (sidebarOpen.value = false)}
+                />
+              );
+            },
+          )}
+        </div>
+        <button
+          onClick={() => openModal("project", { workspaceID: workspace.id })}
+        >
+          <DiamondPlus />
+          New Project
+        </button>
       </div>
     </details>
   );

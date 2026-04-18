@@ -1,4 +1,5 @@
 import { useSignal } from "@preact/signals-react";
+import { useSignals } from "@preact/signals-react/runtime";
 import {
   useFloating,
   flip,
@@ -8,6 +9,7 @@ import {
 } from "@floating-ui/react";
 
 export default function Tooltip({ content, children }) {
+  useSignals();
   const open = useSignal(false);
   const { refs, floatingStyles } = useFloating({
     open: open.value,
@@ -29,7 +31,7 @@ export default function Tooltip({ content, children }) {
       <div
         ref={refs.setFloating}
         style={floatingStyles}
-        className="z-100 pointer-events-none"
+        className="z-1001 pointer-events-none"
       >
         <div
           className={`px-2 py-1 text-sm bg-(--color-tooltip-bg)/40 rounded-md shadow-md 

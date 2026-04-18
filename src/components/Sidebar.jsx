@@ -1,9 +1,11 @@
 import React from "react";
 import { useSignal } from "@preact/signals-react";
+import { useSignals } from "@preact/signals-react/runtime";
+import { activeProjectID } from "../modules/store";
 import { SidebarOpen, SidebarClose } from "lucide-react";
 
-export default function Sidebar({ children, className }) {
-  const open = useSignal(false);
+export default function Sidebar({ children, className, open }) {
+  useSignals();
 
   return (
     <div
@@ -12,9 +14,20 @@ export default function Sidebar({ children, className }) {
         items-center gap-2 md:translate-0
         ${open.value ? "translate-x-full" : "translate-0"} ${className}`}
     >
+      <img
+        src="/logo.webp"
+        alt="Tasker Logo"
+        className="bg-(--color-btn) w-40 md:w-64 p-2 rounded-md 
+                shadow-btn hover:shadow-btn-hover shadow-black/20 outline-1 
+                outline-(--color-btn) cursor-pointer"
+        onClick={() => {
+          activeProjectID.value = null;
+          open.value = false;
+        }}
+      />
       {children}
       <button
-        className="absolute left-full top-[50%] md:hidden"
+        className="absolute left-full top-[50%] md:hidden z-100"
         onClick={() => {
           open.value = !open.value;
         }}

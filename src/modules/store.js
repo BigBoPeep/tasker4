@@ -56,6 +56,8 @@ export const activeWorkspaceID = signal(null);
 export const activeProjectID = signal(null);
 export const modalState = signal(null);
 export const modalVisible = signal(false);
+export const sidebarOpen = signal(false);
+export const toasts = signal([]);
 
 export const activeProjects = computed(() =>
   Object.values(projects.value).filter(
@@ -79,8 +81,8 @@ export const projectsByWorkspace = computed(() => {
   return grouped;
 });
 
-export function addTask(title, desc, deadline, projectID) {
-  const newTask = new Task({ title, desc, deadline, projectID });
+export function addTask(title, desc, deadline, completed, projectID) {
+  const newTask = new Task({ title, desc, deadline, completed, projectID });
   tasks.value = {
     ...tasks.value,
     [newTask.id]: newTask,
@@ -103,8 +105,14 @@ export function deleteTask(id) {
   persist();
 }
 
-export function addProject(title, desc, deadline, workspaceID) {
-  const newProj = new Project({ title, desc, deadline, workspaceID });
+export function addProject(title, desc, deadline, completed, workspaceID) {
+  const newProj = new Project({
+    title,
+    desc,
+    deadline,
+    completed,
+    workspaceID,
+  });
   projects.value = {
     ...projects.value,
     [newProj.id]: newProj,
@@ -163,4 +171,24 @@ export function closeModal() {
   setTimeout(() => {
     modalState.value = null;
   }, 500);
+}
+
+export function addToast(message, type = "info", duration = 3000) {
+  const id = crypto.randomUUID();
+  toasts.value = [...toasts.value, { id, message, type, visible: false }];
+  requestAnimationFrame(() => {
+    toasts.value = toasts.value.map((t) =>
+      t.id === id ? { ...t, visible: true } : t,
+    );
+  });
+  setTimeout(() => removeToast(id), duration);
+}
+
+export function removeToast(id) {
+  toasts.value = toasts.value.map((t) =>
+    t.id === id ? { ...t, visible: false } : t,
+  );
+  setTimeout(() => {
+    toasts.value = toasts.value.filter((t) => t.id !== id);
+  }, 300);
 }
