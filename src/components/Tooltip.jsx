@@ -6,6 +6,7 @@ import {
   shift,
   offset,
   autoUpdate,
+  FloatingPortal,
 } from "@floating-ui/react";
 
 export default function Tooltip({ content, children }) {
@@ -16,6 +17,7 @@ export default function Tooltip({ content, children }) {
     onOpenChange: (o) => (open.value = o),
     middleware: [offset(10), flip(), shift()],
     whileElementsMounted: autoUpdate,
+    strategy: "fixed",
   });
 
   return (
@@ -28,19 +30,21 @@ export default function Tooltip({ content, children }) {
         {children}
       </div>
 
-      <div
-        ref={refs.setFloating}
-        style={floatingStyles}
-        className="z-1001 pointer-events-none"
-      >
+      <FloatingPortal>
         <div
-          className={`px-2 py-1 text-sm bg-(--color-tooltip-bg)/40 rounded-md shadow-md 
-            origin-center transition-transform duration-150 ease-bounce transform-gpu
-            text-tooltip-text ${open.value ? "scale-x-100" : "scale-x-0"}`}
+          ref={refs.setFloating}
+          style={floatingStyles}
+          className="z-1001 pointer-events-none"
         >
-          {content}
+          <div
+            className={`px-2 py-1 text-sm bg-(--color-tooltip-bg)/40 rounded-md shadow-md
+              origin-center transition-transform duration-150 ease-bounce transform-gpu
+              text-tooltip-text ${open.value ? "scale-x-100" : "scale-x-0"}`}
+          >
+            {content}
+          </div>
         </div>
-      </div>
+      </FloatingPortal>
     </>
   );
 }

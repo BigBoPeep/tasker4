@@ -46,6 +46,10 @@ html {
   --color-brand: var(--color-red-900);
   --color-text: var(--color-olive-900);
 
+  --color-overdue: var(--color-red-700);
+  --color-inProgress: var(--color-overlay-2);
+  --color-completed: var(--color-green-900);
+
   --color-tooltip-bg: var(--color-orange-800);
   --color-tooltip-text: var(--color-red-100);
   --color-input: var(--color-overlay-1);

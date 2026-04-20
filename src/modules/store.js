@@ -1,58 +1,27 @@
-import { signal, computed } from "@preact/signals-react";
+import { signal, computed, effect } from "@preact/signals-react";
 import { STORE_KEY, DEFAULT_SETTINGS } from "../config";
 import { Task, Project, Workspace } from "./data";
 
-function load() {
+function load(store, classType = null) {
   try {
-    const saved = JSON.parse(localStorage.getItem(STORE_KEY)) ?? {
-      workspaces: {},
-      projects: {},
-      tasks: {},
-      settings: { ...DEFAULT_SETTINGS },
-    };
-    if (saved.settings.schemeVer !== DEFAULT_SETTINGS.schemeVer)
-      saved.settings = { ...DEFAULT_SETTINGS };
-    return {
-      workspaces: Object.fromEntries(
-        Object.values(saved.workspaces).map((ws) => [ws.id, new Workspace(ws)]),
-      ),
-      projects: Object.fromEntries(
-        Object.values(saved.projects).map((proj) => [
-          proj.id,
-          new Project(proj),
-        ]),
-      ),
-      tasks: Object.fromEntries(
-        Object.values(saved.tasks).map((tsk) => [tsk.id, new Task(tsk)]),
-      ),
-      settings: saved.settings,
-    };
+    const saved =
+      JSON.parse(localStorage.getItem(STORE_KEY + ":" + store)) ??
+      (store === "settings" ? { ...DEFAULT_SETTINGS } : {});
+    if (!classType) return saved;
+    const classes = { workspace: Workspace, project: Project, task: Task };
+    const Cls = classes[classType];
+    return Object.fromEntries(
+      Object.values(saved).map((item) => [item.id, new Cls(item)]),
+    );
   } catch {
-    return {
-      workspaces: {},
-      projects: {},
-      tasks: {},
-      settings: { ...DEFAULT_SETTINGS },
-    };
+    return store === "settings" ? { ...DEFAULT_SETTINGS } : {};
   }
 }
 
-function persist() {
-  localStorage.setItem(
-    STORE_KEY,
-    JSON.stringify({
-      workspaces: workspaces.value,
-      projects: projects.value,
-      tasks: tasks.value,
-      settings: settings.value,
-    }),
-  );
-}
-
-export const workspaces = signal(load().workspaces);
-export const projects = signal(load().projects);
-export const tasks = signal(load().tasks);
-export const settings = signal(load().settings);
+export const workspaces = signal(load("workspaces", "workspace"));
+export const projects = signal(load("projects", "project"));
+export const tasks = signal(load("tasks", "task"));
+export const settings = signal(load("settings"));
 
 export const activeWorkspaceID = signal(null);
 export const activeProjectID = signal(null);
@@ -60,6 +29,28 @@ export const modalState = signal(null);
 export const modalVisible = signal(false);
 export const sidebarOpen = signal(false);
 export const toasts = signal([]);
+
+effect(() => {
+  localStorage.setItem(
+    STORE_KEY + ":" + "workspaces",
+    JSON.stringify(workspaces.value),
+  );
+});
+effect(() => {
+  localStorage.setItem(
+    STORE_KEY + ":" + "projects",
+    JSON.stringify(projects.value),
+  );
+});
+effect(() => {
+  localStorage.setItem(STORE_KEY + ":" + "tasks", JSON.stringify(tasks.value));
+});
+effect(() => {
+  localStorage.setItem(
+    STORE_KEY + ":" + "settings",
+    JSON.stringify(settings.value),
+  );
+});
 
 export const activeProjects = computed(() =>
   Object.values(projects.value).filter(
@@ -99,7 +90,6 @@ export function addTask(title, desc, deadline, completed, projectID) {
     ...tasks.value,
     [newTask.id]: newTask,
   };
-  persist();
 }
 
 export function updateTask(id, patch) {
@@ -107,14 +97,12 @@ export function updateTask(id, patch) {
     ...tasks.value,
     [id]: new Task({ ...tasks.value[id], ...patch }),
   };
-  persist();
 }
 
 export function deleteTask(id) {
   const tsks = { ...tasks.value };
   delete tsks[id];
   tasks.value = tsks;
-  persist();
 }
 
 export function addProject(title, desc, deadline, completed, workspaceID) {
@@ -129,7 +117,6 @@ export function addProject(title, desc, deadline, completed, workspaceID) {
     ...projects.value,
     [newProj.id]: newProj,
   };
-  persist();
 }
 
 export function updateProject(id, patch) {
@@ -137,16 +124,14 @@ export function updateProject(id, patch) {
     ...projects.value,
     [id]: new Project({ ...projects.value[id], ...patch }),
   };
-  persist();
 }
 
 export function deleteProject(id) {
   if (id === activeProjectID.value) activeProjectID.value = null;
   const projs = { ...projects.value };
   delete projs[id];
-  Object.keys(tasksByProject.value[id]).forEach((taskID) => deleteTask(taskID));
+  tasksByProject.value[id].forEach((taskID) => deleteTask(taskID));
   projects.value = projs;
-  persist();
 }
 
 export function addWorkspace(title) {
@@ -155,7 +140,6 @@ export function addWorkspace(title) {
     ...workspaces.value,
     [newWS.id]: newWS,
   };
-  persist();
 }
 
 export function updateWorkspace(id, title) {
@@ -163,17 +147,20 @@ export function updateWorkspace(id, title) {
     ...workspaces.value,
     [id]: new Workspace({ ...workspaces.value[id], title }),
   };
-  persist();
 }
 
 export function deleteWorkspace(id) {
   const wses = { ...workspaces.value };
   delete wses[id];
-  Object.keys(projectsByWorkspace.value[id]).forEach((projID) =>
-    deleteProject(projID),
-  );
+  projectsByWorkspace.value[id].forEach((projID) => deleteProject(projID));
   workspaces.value = wses;
-  persist();
+}
+
+export function updateSettings(patch) {
+  settings.value = {
+    ...settings.value,
+    ...patch,
+  };
 }
 
 export function openModal(type, data = null) {
