@@ -20,12 +20,12 @@ export default function DropdownMulti({
   return (
     <div
       className={`relative group/ms shadow-btn/20 rounded-md 
-        hover:rounded-b-none transition-all transform-gpu duration-300 ease-bounce 
+        hover:rounded-b-none transition-all transform-gpu duration-300 ease-in-out 
         cursor-default hover: ${className}`}
     >
       <div className="flex justify-between p-1 px-2 items-center">
         <p
-          className="h-5 leading-tight text-ellipsis whitespace-nowrap 
+          className="h-5 text-ellipsis whitespace-nowrap 
             overflow-hidden"
         >
           {selectedStr}
@@ -33,17 +33,17 @@ export default function DropdownMulti({
         <div className="relative shrink-0">
           <Square
             className={`stroke-transparent group-hover/ms:stroke-(--color-text)
-              transition-all duration-300 ease-bounce`}
+              transition-all duration-300 ease-in-out`}
           />
           <ChevronLeft
             className={`absolute top-0 left-0 group-hover/ms:-rotate-90 transition-transform 
-              ease-bounce scale-90`}
+              ease-in-out scale-90`}
           />
         </div>
       </div>
       <div
         className="absolute scale-x-90 scale-y-0 group-hover/ms:scale-x-100 
-          group-hover/ms:scale-y-100 transition-transform duration-300 ease-bounce
+          group-hover/ms:scale-y-100 transition-transform duration-300 ease-in-out
           origin-top bg-inherit w-full z-50 shadow-btn/20 rounded-b-md p-2 flex 
           flex-col gap-2"
       >

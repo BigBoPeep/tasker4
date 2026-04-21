@@ -5,14 +5,14 @@ import CompletionBadge from "./CompletionBadge";
 export default function TaskEntry({ task }) {
   return (
     <div
-      className="flex flex-col gap-1 p-1 px-2 shadow-btn/10 rounded-md 
+      className="flex flex-col gap-1 p-1 px-2 bg-(--color-sec) rounded-md 
       hover:bg-(--color-overlay-1) transition-all cursor-pointer"
     >
       <div className="text-1 font-semibold flex justify-between items-center">
         {task.title}
         <CompletionBadge item={task} />
       </div>
-      <div className="font-semibold text-0">
+      <div className="font-semibold">
         <span className="italic font-normal">{"Due: "}</span>
         {format(task.deadline || new Date(), settings.value.dateFormatDue)}
       </div>

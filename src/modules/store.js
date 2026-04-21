@@ -46,6 +46,7 @@ effect(() => {
   localStorage.setItem(STORE_KEY + ":" + "tasks", JSON.stringify(tasks.value));
 });
 effect(() => {
+  document.documentElement.dataset.theme = settings.value.theme;
   localStorage.setItem(
     STORE_KEY + ":" + "settings",
     JSON.stringify(settings.value),

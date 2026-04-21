@@ -15,12 +15,12 @@ export default function WorkspaceEntry({ workspace }) {
 
   return (
     <details
-      className="w-full relative group/ws bg-(--color-overlay-1) 
+      className="w-full relative group/ws bg-(--color-sec) 
         rounded-md"
     >
       <summary
         className="flex justify-center items-center w-full overflow-hidden
-        hover:bg-(--color-overlay-2) cursor-pointer rounded-md px-1 group/sum"
+        hover:bg-(--color-overlay-1) cursor-pointer rounded-md px-1 group/sum"
       >
         <p className="p-2 px-2 mx-auto">{workspace.title}</p>
         <ChevronRight className="rotate-180 group-open/ws:rotate-135 transition-transform duration-400" />
@@ -43,7 +43,7 @@ export default function WorkspaceEntry({ workspace }) {
         </div>
       </summary>
       <div className="p-1 pb-2 flex flex-col items-center gap-2">
-        <div className="w-full">
+        <div className="w-full px-2">
           {Object.values(projectsByWorkspace.value[workspace.id]).map(
             (proj) => {
               return (

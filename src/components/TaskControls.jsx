@@ -17,7 +17,7 @@ export default function TaskControls() {
 
   return (
     <div
-      className="outline-1 outline-(--color-text)/20 rounded-md p-3 flex w-full 
+      className="bg-(--color-sec) rounded-md p-3 flex w-full 
       items-center gap-3 max-w-full"
     >
       <Tooltip content={"New Task"}>

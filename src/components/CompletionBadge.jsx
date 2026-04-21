@@ -7,7 +7,7 @@ export default function CompletionBadge({ item }) {
   return item?.overdue ? (
     <Tooltip content={`Overdue by ${formatDistanceToNow(item.deadline)}`}>
       <div
-        className="flex justify-center items-center p-0.5 rounded-full bg-(--color-overdue)/50 
+        className="flex justify-center items-center p-[2px] rounded-full bg-(--color-overdue)/50 
           opacity-60"
       >
         <BadgeAlert />
