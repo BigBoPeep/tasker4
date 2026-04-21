@@ -1,9 +1,9 @@
 import { tasksByProject, tasks } from "../modules/store";
 import TaskControls from "./TaskControls";
 
-export default function TaskList() {
+export default function TaskList({ className }) {
   return (
-    <div>
+    <div className={`${className}`}>
       <TaskControls />
     </div>
   );

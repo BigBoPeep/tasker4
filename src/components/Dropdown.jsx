@@ -17,10 +17,10 @@ export default function Dropdown({
     <div
       className={`relative group/drop rounded-md hover:rounded-b-none 
       transition-all transform-gpu duration-300 ease-bounce cursor-default 
-      hover:z-50 shadow-btn/20 ${className}`}
+      hover:z-50 shadow-btn/20 min-w-0 ${className}`}
     >
-      <div className="flex justify-between items-center px-2 py-1">
-        <p className="w-full whitespace-nowrap text-ellipsis overflow-hidden">
+      <div className="flex justify-between items-center px-2 py-1 overflow-hidden">
+        <p className="w-full shrink whitespace-nowrap text-ellipsis overflow-hidden">
           {options[selected]}
         </p>
         <div className="relative">
@@ -38,7 +38,7 @@ export default function Dropdown({
         className="absolute bg-inherit w-full p-2 scale-y-0 scale-x-90 rounded-b-md 
           group-hover/drop:scale-y-100 group-hover/drop:scale-x-100 flex flex-col 
           origin-top transition-transform duration-300 ease-bounce shadow-btn/20 
-          group-hover/drop:z-50 gap-1"
+          group-hover/drop:z-50 gap-1 overflow-hidden"
       >
         {Object.entries(options).map(([opt, text]) => {
           return (

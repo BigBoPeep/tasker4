@@ -9,15 +9,15 @@ export default function Sidebar({ children, className, open }) {
 
   return (
     <div
-      className={`absolute md:static w-[min(400px,60dvw)] h-full right-full
+      className={`absolute lg:static w-[min(400px,60dvw)] h-full right-full
         transition-transform duration-500 ease-bounce transform-gpu flex flex-col 
-        items-center gap-2 md:translate-0
+        items-center gap-2 lg:translate-0
         ${open.value ? "translate-x-full" : "translate-0"} ${className}`}
     >
       <img
         src="/logo.webp"
         alt="Tasker Logo"
-        className="bg-(--color-btn) w-40 md:w-64 p-2 rounded-md 
+        className="bg-(--color-btn) w-40 lg:w-64 p-2 rounded-md 
                 shadow-btn hover:shadow-btn-hover shadow-black/20 outline-1 
                 outline-(--color-btn) cursor-pointer"
         onClick={() => {
@@ -27,7 +27,7 @@ export default function Sidebar({ children, className, open }) {
       />
       {children}
       <button
-        className="absolute left-full top-[50%] md:hidden z-100"
+        className="absolute left-full top-[50%] lg:hidden z-100"
         onClick={() => {
           open.value = !open.value;
         }}

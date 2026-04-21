@@ -5,6 +5,10 @@ html {
 }
 
 @layer base {
+  * {
+    @apply box-border;
+  }
+
   button {
     @apply rounded-md p-1 px-2 flex items-center justify-center gap-2 
       bg-(--color-btn) cursor-pointer outline-1 outline-btn/70 

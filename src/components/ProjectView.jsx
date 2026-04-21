@@ -9,37 +9,18 @@ import {
 import { BadgeInfo, BadgeCheck, BadgeAlert } from "lucide-react";
 import Tooltip from "./Tooltip";
 import TaskList from "./TaskList";
+import CompletionBadge from "./CompletionBadge";
 
 export default function ProjectView() {
   useSignals();
   const project = projects.value[activeProjectID.value];
-  const badge = project?.overdue ? (
-    <Tooltip content={`Overdue by ${formatDistanceToNow(project.deadline)}`}>
-      <div className="flex justify-center items-center p-0.5 rounded-full bg-(--color-overdue)/60">
-        <BadgeAlert />
-      </div>
-    </Tooltip>
-  ) : project?.completed === false ? (
-    <Tooltip content={"In Progress..."}>
-      <BadgeInfo />
-    </Tooltip>
-  ) : (
-    <Tooltip
-      content={`Completed on ${format(
-        project?.completed || new Date(),
-        settings.value.dateFormatCompleted,
-      )}`}
-    >
-      <BadgeCheck />
-    </Tooltip>
-  );
 
   return (
-    <div className="w-full h-full p-1">
-      <div className="w-full">
+    <div className="w-full h-full relative overflow-hidden">
+      <div className="w-full border-b p-2 border-(--color-text)/20">
         <div className="flex justify-between items-center">
           {project?.title}
-          {badge}
+          <CompletionBadge item={project} />
         </div>
         <div>
           {"Due: "}
@@ -61,7 +42,8 @@ export default function ProjectView() {
           </span>
         </div>
       </div>
-      <TaskList />
+
+      <TaskList className={"p-2"} />
     </div>
   );
 }

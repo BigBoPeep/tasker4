@@ -18,7 +18,9 @@ function App() {
       <div className="bg-(--color-pri) h-dvh w-dvw flex flex-col overflow-hidden">
         <div className="flex grow overflow-hidden">
           <Sidebar
-            className={"p-2 pt-4 shrink-0 h-full gap-4"}
+            className={
+              "p-2 pt-4 shrink-0 h-full gap-4 border-r border-(--color-text)/20"
+            }
             open={sidebarOpen}
           >
             <button>
@@ -29,7 +31,9 @@ function App() {
           </Sidebar>
           {activeProjectID.value ? <ProjectView /> : <Landing />}
         </div>
-        <footer>Copyright © 2026 Lane Robey</footer>
+        <footer className="border-t border-(--color-text)/20 text-center p-0.5">
+          Copyright © 2026 Lane Robey
+        </footer>
       </div>
     </>
   );
