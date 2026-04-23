@@ -30,7 +30,7 @@ export default function Dropdown({
   return (
     <div
       ref={ref}
-      className={`relative rounded-md cursor-default z-0 shadow-btn/20 min-w-0
+      className={`relative rounded-md cursor-default shadow-btn/20 min-w-0
         ${open ? "rounded-b-none z-50" : ""} 
         transition-all transform-gpu duration-300 ease-in-out ${className}`}
     >
@@ -74,7 +74,7 @@ export default function Dropdown({
               {text}
             </p>
             <Check
-              className={`shrink-0 ${opt === selected ? "opacity-100" : "opacity-0"}`}
+              className={`shrink-0 stroke-(--color-brand) ${opt === selected ? "opacity-100" : "opacity-0"}`}
             />
           </div>
         ))}

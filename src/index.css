@@ -19,7 +19,7 @@ html {
 
   input,
   textarea {
-    @apply rounded-md bg-(--color-input) p-1 px-2 resize-none;
+    @apply rounded-md bg-(--color-sec) p-1 px-2 resize-none;
   }
 
   input[type="datetime-local"] {

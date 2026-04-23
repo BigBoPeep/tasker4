@@ -28,9 +28,9 @@ export default function Checkbox({
         ) : (
           <Square className="overflow-visible">
             <Check
-              className={`stroke-7 origin-center -skew-x-12 -translate-y-0.5 
+              className={`stroke-7 origin-left -skew-x-12 -translate-x-0.5
                 transition-transform transform-gpu ease-bounce duration-300
-                ${checked ? "scale-125" : "scale-0"}`}
+                stroke-(--color-brand) ${checked ? "scale-125" : "scale-x-0"}`}
             />
           </Square>
         )}

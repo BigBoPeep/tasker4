@@ -18,7 +18,9 @@ export default function TaskControls() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className={`bg-(--color-sec) rounded-md w-full max-w-full relative`}>
+    <div
+      className={`bg-(--color-sec) rounded-md w-full max-w-full relative z-1`}
+    >
       <div
         className={`lg:grid lg:grid-cols-2 lg:gap-4 flex flex-col gap-3 grow min-w-0 px-2
           transition-all transform-gpu duration-500 ease-bounce transition-discrete
@@ -59,7 +61,10 @@ export default function TaskControls() {
         <Tooltip content={"New Task"}>
           <button
             onClick={() => {
-              openModal("task", { projectID: activeProjectID.value });
+              openModal("task", {
+                mode: "new",
+                projectID: activeProjectID.value,
+              });
             }}
           >
             <ListPlus />

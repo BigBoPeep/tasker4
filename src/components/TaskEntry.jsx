@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { settings } from "../modules/store";
+import { settings, openModal } from "../modules/store";
 import CompletionBadge from "./CompletionBadge";
 
 export default function TaskEntry({ task }) {
@@ -7,6 +7,7 @@ export default function TaskEntry({ task }) {
     <div
       className="flex flex-col gap-1 p-1 px-2 bg-(--color-sec) rounded-md 
       hover:bg-(--color-overlay-1) transition-all cursor-pointer"
+      onClick={() => openModal("task", { ...task, mode: "view" })}
     >
       <div className="flex justify-between items-center">
         <span className="text-(--color-brand) text-2 font-bold">
