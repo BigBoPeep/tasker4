@@ -5,7 +5,7 @@ export default function Landing() {
   return (
     <div className="flex flex-col items-center gap-4 w-full p-4 overflow-y-auto">
       <HeroSection
-        className={"w-[min(800px,60dvw)]"}
+        className={"w-[min(800px,prose)]"}
         text={
           <span className="text-4">
             Welcome to{" "}
